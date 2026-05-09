@@ -1,4 +1,4 @@
-package com.backend.system.design.ai;
+package com.backend.systemdesign.ai;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
