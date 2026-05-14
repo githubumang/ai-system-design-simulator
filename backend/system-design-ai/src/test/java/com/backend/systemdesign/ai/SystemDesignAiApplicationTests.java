@@ -1,4 +1,4 @@
-package com.backend.system.design.ai;
+package com.backend.systemdesign.ai;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
