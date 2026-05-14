@@ -1,5 +1,6 @@
 package com.backend.systemdesign.ai.service;
 
+import com.backend.systemdesign.ai.dto.request.AnswerRequest;
 import com.backend.systemdesign.ai.dto.response.AnswerResponse;
 import com.backend.systemdesign.ai.model.Answer;
 import com.backend.systemdesign.ai.repository.AnswerRepository;
@@ -14,13 +15,13 @@ public class AnswerService {
     @Autowired
     private AnswerRepository answerRepository;
 
-    public AnswerResponse saveAnswer(String questionId, String userAnswer) {
+    public AnswerResponse saveAnswer(AnswerRequest requestDto) {
 
-        String feedback = generateDummyFeedback(userAnswer);
+        String feedback = generateDummyFeedback(requestDto.getAnswer());
 
         Answer answer = new Answer();
-        answer.setQuestionId(questionId);
-        answer.setUserAnswer(userAnswer);
+        answer.setQuestionId(requestDto.getQuestionId());
+        answer.setUserAnswer(requestDto.getAnswer());
         answer.setFeedback(feedback);
         answer.setCreatedAt(LocalDateTime.now());
 
