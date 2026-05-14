@@ -1,25 +1,32 @@
 package com.backend.systemdesign.ai.model;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import lombok.Getter;
+import lombok.Setter;
+
+@Entity
+@Getter
+@Setter
 public class Question {
-    private String id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     private String title;
+
+    @Column(length = 1000)
     private String description;
 
-    public Question(String id, String title, String description) {
-        this.id = id;
-        this.title = title;
-        this.description = description;
-    }
+    @Enumerated(EnumType.STRING)
+    private QuestionType type;
 
-    public String getId() {
-        return id;
-    }
+    @Enumerated(EnumType.STRING)
+    private Difficulty difficulty; 
 
-    public String getTitle() {
-        return title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
 }
