@@ -7,30 +7,43 @@ import org.springframework.context.annotation.Configuration;
 import com.backend.systemdesign.ai.model.Difficulty;
 import com.backend.systemdesign.ai.model.Question;
 import com.backend.systemdesign.ai.model.QuestionType;
+import com.backend.systemdesign.ai.model.User;
 import com.backend.systemdesign.ai.repository.QuestionRepository;
+import com.backend.systemdesign.ai.repository.UserRepository;
 
 @Configuration
 public class DataLoader {
 
     @Bean
-    CommandLineRunner loadData (QuestionRepository repository) {
+    CommandLineRunner loadData (QuestionRepository questionRepository, UserRepository userRepository) {
         return args -> {
-            repository.save(create("What is Spring Boot?",
+            questionRepository.save(createQuestion("What is Spring Boot?",
                     "Explain Spring Boot and its advantages",
                     QuestionType.THEORY, Difficulty.EASY));
 
-            repository.save(create("Design URL Shortener",
+                    questionRepository.save(createQuestion("Design URL Shortener",
                     "Design a scalable URL shortening service",
                     QuestionType.DESIGN, Difficulty.MEDIUM));
+
+                    userRepository.save(createUser("Umang", "uma@gmail.com"));
+
+                    userRepository.save(createUser("Aman", "aman@gmail.com"));
         };
     }
 
-    private Question create(String title, String desc, QuestionType type, Difficulty difficulty) {
+    private Question createQuestion(String title, String desc, QuestionType type, Difficulty difficulty) {
         Question q = new Question();
         q.setTitle(title);
         q.setDescription(desc);
         q.setType(type);
         q.setDifficulty(difficulty);
         return q;
+    }
+
+    private User createUser(String name, String email) {
+        User user = new User();
+        user.setName(name);
+        user.setEmail(email);
+        return user;
     }
 }
