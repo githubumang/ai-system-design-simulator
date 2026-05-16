@@ -9,7 +9,8 @@ import lombok.Setter;
 @Setter
 public class AnswerResponse {
     private long id;
-    private String questionId;
+    private Long questionId;
+    private String questionTitle;
     private String answer;
     private String feedback;
     private LocalDateTime createdAt;
