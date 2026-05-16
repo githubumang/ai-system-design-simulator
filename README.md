@@ -25,10 +25,13 @@ This project simulates a **real system design interview platform** where users c
 
 ### ✅ Phase 2: Backend Development (Current)
 
-* Answer submission API (`POST /answers`)
-* DTO-based API design
-* Input validation
+* Question management APIs
+* Answer submission APIs
+* DTO-based API architecture
+* Input validation using Jakarta Validation
 * Global exception handling
+* Structured API error responses
+* Relational mapping between Questions and Answers
 * H2 database integration
 * Clean layered architecture
 
@@ -60,33 +63,61 @@ docs/
 
 ## 🧱 Architecture
 
-```id="arch1"
+```text
 Controller → Service → Repository → Database
+```
+
+### Layer Responsibilities
+
+- Controller → Handles HTTP requests/responses
+- Service → Business logic
+- Repository → Database operations
+- Database → Persistent storage
+
+---
+
+## 🧱 Domain Relationships
+
+```text
+One Question → Many Answers
+Each Answer belongs to one Question
 ```
 
 ---
 
 ## 📌 API Endpoints
 
-### 🔹 Submit Answer
+### 🔹 Questions
 
-**POST** `/answers`
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/questions` | Fetch all questions |
+| GET | `/questions/{id}` | Fetch question by ID |
 
-#### Request:
+---
 
-```json id="req1"
+### 🔹 Answers
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/answers` | Submit answer for question |
+
+#### Request
+
+```json
 {
-  "questionId": "q1",
+  "questionId": 1,
   "answer": "Design a URL shortener..."
 }
 ```
 
-#### Response:
+#### Response
 
-```json id="res1"
+```json
 {
   "id": 1,
-  "questionId": "q1",
+  "questionId": 1,
+  "questionTitle": "Design URL Shortener",
   "answer": "...",
   "feedback": "Good attempt. AI feedback will be added later.",
   "createdAt": "2026-05-09T18:30:00"
@@ -108,6 +139,28 @@ Example:
   "answer": "Answer cannot be empty"
 }
 ```
+
+---
+
+## ⚠️ Error Handling
+
+Example error response:
+
+```json
+{
+  "timestamp": "2026-05-16T18:30:00",
+  "status": 404,
+  "message": "Question not found"
+}
+```
+
+---
+
+## ⚠️ Current Limitations
+
+- Authentication is not implemented yet
+- AI feedback is currently mocked
+- H2 is used for local development only
 
 ---
 
@@ -145,12 +198,13 @@ http://localhost:8080/h2-console
 
 ## 📈 Future Roadmap
 
-* 🔜 AI feedback integration (OpenAI)
-* 🔜 Question management API
-* 🔜 Structured answer evaluation (FR/NFR, trade-offs)
-* 🔜 User authentication
+* 🔜 User management & authentication
+* 🔜 One answer per user per question
+* 🔜 AI-powered answer evaluation
+* 🔜 Structured system design feedback
+* 🔜 Progress tracking dashboard
 * 🔜 Microservices migration
-* 🔜 Caching & scaling
+* 🔜 Caching & performance optimization
 
 ---
 
