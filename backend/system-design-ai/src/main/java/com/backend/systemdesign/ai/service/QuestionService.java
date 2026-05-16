@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.backend.systemdesign.ai.exception.ResourceNotFoundException;
 import com.backend.systemdesign.ai.model.Question;
 import com.backend.systemdesign.ai.repository.QuestionRepository;
 
@@ -20,6 +21,6 @@ public class QuestionService {
     }
 
     public Question getQuestionById(Long id) {
-        return questionRepository.findById(id).orElseThrow(() -> new RuntimeException("Question not found"));
+        return questionRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Question not found"));
     }
 }
