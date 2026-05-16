@@ -5,13 +5,15 @@ import com.backend.systemdesign.ai.dto.response.AnswerResponse;
 import com.backend.systemdesign.ai.exception.ResourceNotFoundException;
 import com.backend.systemdesign.ai.model.Answer;
 import com.backend.systemdesign.ai.model.Question;
+import com.backend.systemdesign.ai.model.User;
 import com.backend.systemdesign.ai.repository.AnswerRepository;
 import com.backend.systemdesign.ai.repository.QuestionRepository;
+import com.backend.systemdesign.ai.repository.UserRepository;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Service
 public class AnswerService {
@@ -20,26 +22,44 @@ public class AnswerService {
 
     private QuestionRepository questionRepository;
 
-    public AnswerService(AnswerRepository answerRepository, QuestionRepository questionRepository) {
+    private UserRepository userRepository;
+
+    public AnswerService(AnswerRepository answerRepository, QuestionRepository questionRepository, UserRepository userRepository) {
         this.answerRepository = answerRepository;
         this.questionRepository = questionRepository;
+        this.userRepository = userRepository;
     }
 
-    public AnswerResponse saveAnswer(AnswerRequest requestDto) {
-
+    public AnswerResponse submitOrUpdateAnswer(AnswerRequest requestDto) {
+        
         Question question = questionRepository.findById(
-                Long.valueOf(requestDto.getQuestionId())
+            requestDto.getQuestionId()
         ).orElseThrow(() ->
                 new ResourceNotFoundException("Question not found")
         );
 
+        User user = userRepository.findById(
+            requestDto.getUserId()
+        ).orElseThrow(() -> 
+                new ResourceNotFoundException("User not found")
+        );
+
+        Optional<Answer> existing = answerRepository.findByUserAndQuestion(user, question);
         String feedback = generateDummyFeedback(requestDto.getAnswer());
 
-        Answer answer = new Answer();
-        answer.setQuestion(question);
+        Answer answer;
+
+        if (existing.isPresent()) {
+            answer = existing.get();
+        } else {
+            answer = new Answer();
+            answer.setUser(user);
+            answer.setQuestion(question);
+            answer.setCreatedAt(LocalDateTime.now());
+        }
+
         answer.setUserAnswer(requestDto.getAnswer());
         answer.setFeedback(feedback);
-        answer.setCreatedAt(LocalDateTime.now());
 
         Answer savedAnswer = answerRepository.save(answer);
 

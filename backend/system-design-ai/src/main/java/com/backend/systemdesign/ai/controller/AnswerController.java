@@ -29,9 +29,10 @@ public class AnswerController {
     @PostMapping
     @Operation(summary = "Submit answer for a question")
     public ResponseEntity<AnswerResponse> submitAnswer(@Valid @RequestBody AnswerRequest requestDto) {
-        //TODO: process POST request
-        AnswerResponse responseDto = answerService.saveAnswer(requestDto);
+
+        AnswerResponse responseDto = answerService.submitOrUpdateAnswer(requestDto);
         return ResponseEntity.ok(responseDto);
+        
     }
 
 }
