@@ -35,6 +35,24 @@ public class Answer {
     @Lob
     private String userAnswer;
 
+    @Column(columnDefinition = "TEXT")
+    private String functionalRequirements;
+
+    @Column(columnDefinition = "TEXT")
+    private String nonFunctionalRequirements;
+
+    @Column(columnDefinition = "TEXT")
+    private String apiDesign;
+
+    @Column(columnDefinition = "TEXT")
+    private String databaseDesign;
+
+    @Column(columnDefinition = "TEXT")
+    private String scalingStrategy;
+
+    @Column(columnDefinition = "TEXT")
+    private String tradeOffs;
+
     @Lob
     private String feedback;
 

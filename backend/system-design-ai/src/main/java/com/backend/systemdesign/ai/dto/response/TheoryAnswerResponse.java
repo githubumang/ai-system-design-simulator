@@ -7,11 +7,10 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class AnswerResponse {
+public class TheoryAnswerResponse {
     
     private Long id;
     private Long questionId;
-    private Long userId;
     private String questionTitle;
     private String answer;
     private String feedback;
