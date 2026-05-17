@@ -37,6 +37,9 @@ This project simulates a **real system design interview platform** where users c
 * Update existing answer flow
 * H2 database integration
 * Clean layered architecture
+* Separate workflows for THEORY and DESIGN questions
+* Structured answer submission for system design questions
+* Domain-specific DTOs and APIs
 
 ---
 
@@ -103,18 +106,19 @@ One User can submit only one answer per question
 
 ---
 
-### 🔹 Answers
+### 🔹 Theory Answers
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| POST | `/answers` | Submit answer for question |
+| POST | `/answers/theory` | Submit or update answer for THEORY questions |
 
-#### Request
+#### Theory Answer Request
 
 ```json
 {
+  "userId": 1,
   "questionId": 1,
-  "answer": "Design a URL shortener..."
+  "answer": "Spring Boot simplifies Java backend development..."
 }
 ```
 
@@ -133,23 +137,63 @@ One User can submit only one answer per question
 
 ---
 
+### 🔹 Design Answers
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/answers/design` | Submit or update answer for DESIGN questions |
+
+#### Design Answer Request
+
+```json
+{
+  "userId": 1,
+  "questionId": 2,
+  "functionalRequirements": "Users should create short URLs",
+  "nonFunctionalRequirements": "High availability and scalability",
+  "apiDesign": "POST /shorten",
+  "databaseDesign": "Use SQL for metadata storage",
+  "scalingStrategy": "Use caching and DB sharding",
+  "tradeOffs": "SQL consistency vs NoSQL scalability"
+}
+```
+
+#### Response
+
+```json
+{
+  "id": 1,
+  "questionId": 1,
+  "questionTitle": "Design URL Shortener",
+  "functionalRequirements": "Users should create short URLs",
+  "nonFunctionalRequirements": "High availability and scalability",
+  "apiDesign": "POST /shorten",
+  "databaseDesign": "Use SQL for metadata storage",
+  "scalingStrategy": "Use caching and DB sharding",
+  "tradeOffs": "SQL consistency vs NoSQL scalability",
+  "feedback": "Good attempt. AI feedback will be added later.",
+  "createdAt": "2026-05-09T18:30:00"
+}
+```
+
+---
+
 ## 🧪 Validation
 
-Required fields:
+### Theory Answers
 
+Required fields:
 - `userId`
 - `questionId`
 - `answer`
 
-Example validation response:
+### Design Answers
 
-```json
-{
-  "userId": "User ID is required",
-  "questionId": "Question ID is required",
-  "answer": "Answer cannot be empty"
-}
-```
+Required fields:
+- `userId`
+- `questionId`
+- `functionalRequirements`
+- `nonFunctionalRequirements`
 
 ---
 
@@ -184,6 +228,8 @@ Example error response:
 - One user can submit only one answer per question
 - Submitting again updates the existing answer
 - Invalid users/questions return proper HTTP 404 responses
+- Theory and Design questions use separate answer workflows
+- Design answers support structured system design sections
 
 ---
 
@@ -192,6 +238,28 @@ Example error response:
 - Authentication is not implemented yet
 - AI feedback is currently mocked
 - H2 is used for local development only
+
+---
+
+## 🧠 Supported Question Types
+
+### THEORY Questions
+Used for conceptual/backend knowledge questions.
+
+Example:
+- What is Spring Boot?
+- Explain Dependency Injection
+
+### DESIGN Questions
+Used for structured system design interview practice.
+
+Supported sections:
+- Functional Requirements
+- Non-Functional Requirements
+- API Design
+- Database Design
+- Scaling Strategy
+- Trade-offs
 
 ---
 
@@ -218,7 +286,7 @@ cd backend/system-design-ai
 
 ## 🧪 H2 Console
 
-```id="h21"
+```text
 http://localhost:8080/h2-console
 ```
 
@@ -230,8 +298,8 @@ http://localhost:8080/h2-console
 ## 📈 Future Roadmap
 
 * 🔜 User management & authentication
-* 🔜 Structured answer sections (FR, NFR, APIs, DB design, scaling)
 * 🔜 AI-powered answer evaluation
+* 🔜 AI-powered evaluation for structured design sections
 * 🔜 Structured system design feedback
 * 🔜 Progress tracking dashboard
 * 🔜 Microservices migration
