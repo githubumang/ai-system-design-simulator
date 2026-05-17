@@ -31,7 +31,10 @@ This project simulates a **real system design interview platform** where users c
 * Input validation using Jakarta Validation
 * Global exception handling
 * Structured API error responses
-* Relational mapping between Questions and Answers
+* Relational mapping between Users, Questions, and Answers
+* Swagger/OpenAPI integration for API documentation
+* One answer per user per question
+* Update existing answer flow
 * H2 database integration
 * Clean layered architecture
 
@@ -41,7 +44,7 @@ This project simulates a **real system design interview platform** where users c
 
 All system design artifacts are maintained in the `docs/` folder:
 
-```id="doc1"
+```
 docs/
 ├── api-specs/
 │   └── api-spec-v1.md
@@ -64,7 +67,7 @@ docs/
 ## 🧱 Architecture
 
 ```text
-Controller → Service → Repository → Database
+Client → Controller → Service → Repository → Database
 ```
 
 ### Layer Responsibilities
@@ -79,8 +82,12 @@ Controller → Service → Repository → Database
 ## 🧱 Domain Relationships
 
 ```text
+One User → Many Answers
 One Question → Many Answers
-Each Answer belongs to one Question
+Each Answer belongs to one User and one Question
+
+Unique Constraint:
+One User can submit only one answer per question
 ```
 
 ---
@@ -128,17 +135,33 @@ Each Answer belongs to one Question
 
 ## 🧪 Validation
 
-* `questionId` → required
-* `answer` → required
+Required fields:
 
-Example:
+- `userId`
+- `questionId`
+- `answer`
 
-```json id="err1"
+Example validation response:
+
+```json
 {
-  "questionId": "Question ID cannot be empty",
+  "userId": "User ID is required",
+  "questionId": "Question ID is required",
   "answer": "Answer cannot be empty"
 }
 ```
+
+---
+
+## 📘 API Documentation
+
+Swagger UI is available at:
+
+```text
+http://localhost:8080/swagger-ui/index.html
+```
+
+The APIs are documented using OpenAPI/Swagger annotations.
 
 ---
 
@@ -153,6 +176,14 @@ Example error response:
   "message": "Question not found"
 }
 ```
+
+---
+
+## 🧠 Business Rules
+
+- One user can submit only one answer per question
+- Submitting again updates the existing answer
+- Invalid users/questions return proper HTTP 404 responses
 
 ---
 
@@ -176,7 +207,7 @@ Example error response:
 
 ## ⚙️ Running the Project
 
-```bash id="run1"
+```bash 
 git clone https://github.com/githubumang/ai-system-design-simulator.git
 cd backend/system-design-ai
 ./mvnw clean install
@@ -199,7 +230,7 @@ http://localhost:8080/h2-console
 ## 📈 Future Roadmap
 
 * 🔜 User management & authentication
-* 🔜 One answer per user per question
+* 🔜 Structured answer sections (FR, NFR, APIs, DB design, scaling)
 * 🔜 AI-powered answer evaluation
 * 🔜 Structured system design feedback
 * 🔜 Progress tracking dashboard
