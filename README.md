@@ -40,6 +40,9 @@ This project simulates a **real system design interview platform** where users c
 * Separate workflows for THEORY and DESIGN questions
 * Structured answer submission for system design questions
 * Domain-specific DTOs and APIs
+* Separate evaluation workflow for submitted answers
+* Structured evaluation scoring architecture
+* API versioning using `/api/v1`
 
 ---
 
@@ -64,13 +67,14 @@ docs/
 * **API-first design**
 * **Monolith-first strategy (scalable to microservices)**
 * **Clear architectural decisions via ADRs**
+* **Separate submission and evaluation workflows**
 
 ---
 
 ## 🧱 Architecture
 
 ```text
-Client → Controller → Service → Repository → Database
+Client → Controller → Service → Evaluation Engine → Repository → Database
 ```
 
 ### Layer Responsibilities
@@ -89,6 +93,8 @@ One User → Many Answers
 One Question → Many Answers
 Each Answer belongs to one User and one Question
 
+One Answer → One Evaluation
+
 Unique Constraint:
 One User can submit only one answer per question
 ```
@@ -101,8 +107,8 @@ One User can submit only one answer per question
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| GET | `/questions` | Fetch all questions |
-| GET | `/questions/{id}` | Fetch question by ID |
+| GET | `api/v1/questions` | Fetch all questions |
+| GET | `api/v1/questions/{id}` | Fetch question by ID |
 
 ---
 
@@ -110,7 +116,7 @@ One User can submit only one answer per question
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| POST | `/answers/theory` | Submit or update answer for THEORY questions |
+| POST | `api/v1/answers/theory` | Submit or update answer for THEORY questions |
 
 #### Theory Answer Request
 
@@ -141,7 +147,7 @@ One User can submit only one answer per question
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| POST | `/answers/design` | Submit or update answer for DESIGN questions |
+| POST | `api/v1/answers/design` | Submit or update answer for DESIGN questions |
 
 #### Design Answer Request
 
@@ -173,6 +179,30 @@ One User can submit only one answer per question
   "tradeOffs": "SQL consistency vs NoSQL scalability",
   "feedback": "Good attempt. AI feedback will be added later.",
   "createdAt": "2026-05-09T18:30:00"
+}
+```
+
+### 🔹 Evaluations
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/api/v1/evaluations/{answerId}` | Generate evaluation for submitted answer |
+
+#### Evaluation Response
+
+```json
+{
+  "answerId": 1,
+  "questionType": "DESIGN",
+  "overallScore": 4,
+  "functionalRequirementsScore": 3,
+  "nonFunctionalRequirementsScore": 2,
+  "apiDesignScore": 4,
+  "databaseDesignScore": 5,
+  "scalingScore": 9,
+  "tradeOffsScore": 10,
+  "overallFeedback": "Overall feedback is good",
+  "evaluatedAt": "2026-05-18T20:30:00"
 }
 ```
 
@@ -230,13 +260,16 @@ Example error response:
 - Invalid users/questions return proper HTTP 404 responses
 - Theory and Design questions use separate answer workflows
 - Design answers support structured system design sections
+- Evaluations are generated separately from answer submission
+- Design answers support section-wise evaluation scoring
 
 ---
 
 ## ⚠️ Current Limitations
 
 - Authentication is not implemented yet
-- AI feedback is currently mocked
+- AI/OpenAI integration is not implemented yet
+- Current evaluation scores are generated using dummy logic
 - H2 is used for local development only
 
 ---
@@ -268,8 +301,10 @@ Supported sections:
 * Java 17
 * Spring Boot 3.x
 * Spring Data JPA
+* Hibernate
 * H2 Database
 * Maven
+* Swagger/OpenAPI
 
 ---
 
@@ -298,7 +333,8 @@ http://localhost:8080/h2-console
 ## 📈 Future Roadmap
 
 * 🔜 User management & authentication
-* 🔜 AI-powered answer evaluation
+* 🔜 OpenAI-powered evaluation engine
+* 🔜 AI-generated section-wise feedback
 * 🔜 AI-powered evaluation for structured design sections
 * 🔜 Structured system design feedback
 * 🔜 Progress tracking dashboard
