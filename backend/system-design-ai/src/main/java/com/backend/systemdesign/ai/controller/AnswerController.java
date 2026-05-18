@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 
 @RestController
-@RequestMapping("/answers")
+@RequestMapping("/api/v1/answers")
 @Tag(name = "Answer APIs", description = "APIs for answer submission")
 public class AnswerController {
     private final AnswerService answerService;

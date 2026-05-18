@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 
 @RestController
-@RequestMapping("/questions")
+@RequestMapping("/api/v1/questions")
 @Tag(name = "Question APIs", description = "APIs for managing interview questions")
 public class QuestionContoller {
     private final QuestionService questionService;
