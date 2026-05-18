@@ -37,16 +37,16 @@ public class AnswerService {
     public TheoryAnswerResponse submitOrUpdateTheoryAnswer(TheoryAnswerRequest requestDto) {
         
         Question question = questionRepository.findById(
-            requestDto.getQuestionId()
-        ).orElseThrow(() ->
-                new ResourceNotFoundException("Question not found")
-        );
+                                                    requestDto.getQuestionId()
+                                                ).orElseThrow(() ->
+                                                        new ResourceNotFoundException("Question not found")
+                                                );
 
         User user = userRepository.findById(
-            requestDto.getUserId()
-        ).orElseThrow(() -> 
-                new ResourceNotFoundException("User not found")
-        );
+                                        requestDto.getUserId()
+                                    ).orElseThrow(() -> 
+                                            new ResourceNotFoundException("User not found")
+                                    );
 
         if(question.getType() != QuestionType.THEORY) {
             throw new InvalidQuestionTypeException(
@@ -150,6 +150,6 @@ public class AnswerService {
     
 
     private String generateDummyFeedback(String userAnswer) {
-        return "Good attempt. AI feedback will be added later.";
+        return "Answer submitted successfully. Generate evaluation separately.";
     }
 }
