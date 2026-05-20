@@ -30,6 +30,7 @@ public class QuestionContoller {
     @Operation(summary = "Fetch all questions")
     public ResponseEntity<List<Question>> getAllQuestions() {
         List<Question> questionList = questionService.getAllQuestions();
+        // System.out.println("val= "+System.getenv("OPENAI_API_KEY"));
         return ResponseEntity.ok(questionList);
     }
 

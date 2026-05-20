@@ -14,7 +14,7 @@ public class DummyEvaluationEngine implements EvaluationEngine {
     @Override
     public void evaluate(Answer answer, Evaluation evaluation) {
 
-        if(answer.getQuestion().getType() == QuestionType.DESIGN) {
+        if (answer.getQuestion().getType() == QuestionType.DESIGN) {
             evaluation.setApiDesignScore(4);
             evaluation.setDatabaseDesignScore(5);
             evaluation.setFunctionalRequirementsScore(3);
@@ -23,8 +23,7 @@ public class DummyEvaluationEngine implements EvaluationEngine {
             evaluation.setScalingScore(9);
             evaluation.setTradeOffsScore(10);
             evaluation.setOverallFeedback("Overall feedback is good");
-        }
-        else {
+        } else {
             evaluation.setApiDesignScore(null);
             evaluation.setDatabaseDesignScore(null);
             evaluation.setFunctionalRequirementsScore(null);

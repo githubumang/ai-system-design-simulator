@@ -17,13 +17,13 @@ public class EvaluationController {
 
     EvaluationService evaluationService;
 
-    public EvaluationController (EvaluationService evaluationService) {
+    public EvaluationController(EvaluationService evaluationService) {
         this.evaluationService = evaluationService;
     }
 
     @PostMapping("/{answerId}")
     @Operation(summary = "Generate evaluation for answer")
-    public ResponseEntity<EvaluationResponse> generateEvaluation (@PathVariable Long answerId) {
+    public ResponseEntity<EvaluationResponse> generateEvaluation(@PathVariable Long answerId) {
         EvaluationResponse response = evaluationService.generateEvaluation(answerId);
 
         return ResponseEntity.ok(response);

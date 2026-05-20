@@ -15,19 +15,19 @@ import com.backend.systemdesign.ai.repository.UserRepository;
 public class DataLoader {
 
     @Bean
-    CommandLineRunner loadData (QuestionRepository questionRepository, UserRepository userRepository) {
+    CommandLineRunner loadData(QuestionRepository questionRepository, UserRepository userRepository) {
         return args -> {
-            questionRepository.save(createQuestion("What is Spring Boot?",
-                    "Explain Spring Boot and its advantages",
+            questionRepository.save(createQuestion("What is System Design?",
+                    "Explain System Design and its advantages",
                     QuestionType.THEORY, Difficulty.EASY));
 
-                    questionRepository.save(createQuestion("Design URL Shortener",
+            questionRepository.save(createQuestion("Design URL Shortener",
                     "Design a scalable URL shortening service",
                     QuestionType.DESIGN, Difficulty.MEDIUM));
 
-                    userRepository.save(createUser("Umang", "uma@gmail.com"));
+            userRepository.save(createUser("Umang", "uma@gmail.com"));
 
-                    userRepository.save(createUser("Aman", "aman@gmail.com"));
+            userRepository.save(createUser("Aman", "aman@gmail.com"));
         };
     }
 
