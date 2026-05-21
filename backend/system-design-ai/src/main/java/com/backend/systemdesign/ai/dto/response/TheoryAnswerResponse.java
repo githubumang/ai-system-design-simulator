@@ -8,12 +8,12 @@ import lombok.Setter;
 @Getter
 @Setter
 public class TheoryAnswerResponse {
-    
+
     private Long id;
     private Long questionId;
     private String questionTitle;
     private String answer;
-    private String feedback;
     private LocalDateTime createdAt;
-    
+    private LocalDateTime updatedAt;
+
 }

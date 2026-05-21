@@ -8,7 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class DesignAnswerResponse {
-    
+
     private Long id;
     private Long questionId;
     private String questionTitle;
@@ -18,7 +18,7 @@ public class DesignAnswerResponse {
     private String databaseDesign;
     private String scalingStrategy;
     private String tradeOffs;
-    private String feedback;
     private LocalDateTime createdAt;
-    
+    private LocalDateTime updatedAt;
+
 }
