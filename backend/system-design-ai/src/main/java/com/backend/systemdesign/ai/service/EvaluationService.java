@@ -36,13 +36,11 @@ public class EvaluationService {
         Answer answer = answerRepository.findById(answerId)
                 .orElseThrow(() -> new ResourceNotFoundException("Answer not found"));
 
-        Evaluation evaluation;
-        Optional<Evaluation> existing = evaluationRepository.findByAnswer(answer);
+        Evaluation evaluation = evaluationRepository.findByAnswer(answer)
+                .orElseGet(Evaluation::new);
 
-        if (existing.isPresent()) {
-            evaluation = existing.get();
-        } else {
-            evaluation = new Evaluation();
+        if (isEvaluationFresh(evaluation, answer)) {
+            return evaluationMapper.toResponse(evaluation);
         }
 
         evaluationEngine.evaluate(answer, evaluation);
@@ -50,5 +48,17 @@ public class EvaluationService {
         Evaluation savedEvaluation = evaluationRepository.save(evaluation);
 
         return evaluationMapper.toResponse(savedEvaluation);
+    }
+
+    private boolean isEvaluationFresh(
+            Evaluation evaluation,
+            Answer answer) {
+
+        if (evaluation.getEvaluatedAt() == null) {
+            return false;
+        }
+
+        return !evaluation.getEvaluatedAt()
+                .isBefore(answer.getUpdatedAt());
     }
 }
