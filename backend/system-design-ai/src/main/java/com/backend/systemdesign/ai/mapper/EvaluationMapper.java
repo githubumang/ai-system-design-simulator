@@ -8,45 +8,40 @@ import com.backend.systemdesign.ai.model.Evaluation;
 @Component
 public class EvaluationMapper {
 
-    public EvaluationResponse toResponse(Evaluation evaluation) {
+        public EvaluationResponse toResponse(Evaluation evaluation) {
 
-        EvaluationResponse responseDto = new EvaluationResponse();
+                EvaluationResponse responseDto = new EvaluationResponse();
 
-        responseDto.setApiDesignScore(
-                evaluation.getApiDesignScore());
+                responseDto.setAnswerId(evaluation.getAnswer().getId());
+                responseDto.setQuestionType(evaluation.getAnswer().getQuestion().getType());
+                responseDto.setEvaluatedAt(evaluation.getEvaluatedAt());
 
-        responseDto.setDatabaseDesignScore(
-                evaluation.getDatabaseDesignScore());
+                // Common fields
+                responseDto.setOverallScore(evaluation.getOverallScore());
+                responseDto.setStrengths(evaluation.getStrengths());
+                responseDto.setWeaknesses(evaluation.getWeaknesses());
+                responseDto.setSuggestions(evaluation.getSuggestions());
+                responseDto.setOverallFeedback(evaluation.getOverallFeedback());
 
-        responseDto.setFunctionalRequirementsScore(
-                evaluation.getFunctionalRequirementsScore());
+                // DESIGN only — section scores + feedback
+                responseDto.setFunctionalRequirementsScore(evaluation.getFunctionalRequirementsScore());
+                responseDto.setFunctionalRequirementsFeedback(evaluation.getFunctionalRequirementsFeedback());
 
-        responseDto.setNonFunctionalRequirementsScore(
-                evaluation.getNonFunctionalRequirementsScore());
+                responseDto.setNonFunctionalRequirementsScore(evaluation.getNonFunctionalRequirementsScore());
+                responseDto.setNonFunctionalRequirementsFeedback(evaluation.getNonFunctionalRequirementsFeedback());
 
-        responseDto.setScalingScore(
-                evaluation.getScalingScore());
+                responseDto.setApiDesignScore(evaluation.getApiDesignScore());
+                responseDto.setApiDesignFeedback(evaluation.getApiDesignFeedback());
 
-        responseDto.setTradeOffsScore(
-                evaluation.getTradeOffsScore());
+                responseDto.setDatabaseDesignScore(evaluation.getDatabaseDesignScore());
+                responseDto.setDatabaseDesignFeedback(evaluation.getDatabaseDesignFeedback());
 
-        responseDto.setOverallFeedback(
-                evaluation.getOverallFeedback());
+                responseDto.setScalingScore(evaluation.getScalingScore());
+                responseDto.setScalingFeedback(evaluation.getScalingFeedback());
 
-        responseDto.setOverallScore(
-                evaluation.getOverallScore());
+                responseDto.setTradeOffsScore(evaluation.getTradeOffsScore());
+                responseDto.setTradeOffsFeedback(evaluation.getTradeOffsFeedback());
 
-        responseDto.setAnswerId(
-                evaluation.getAnswer().getId());
-
-        responseDto.setEvaluatedAt(
-                evaluation.getEvaluatedAt());
-
-        responseDto.setQuestionType(
-                evaluation.getAnswer()
-                        .getQuestion()
-                        .getType());
-
-        return responseDto;
-    }
+                return responseDto;
+        }
 }
