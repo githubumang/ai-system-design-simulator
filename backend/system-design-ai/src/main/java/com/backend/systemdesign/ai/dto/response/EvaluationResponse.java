@@ -12,20 +12,30 @@ import lombok.Setter;
 public class EvaluationResponse {
     private Long answerId;
 
-    private Integer overallScore;
-
+    // Section-wise (DESIGN only)
     private Integer functionalRequirementsScore;
+    private String functionalRequirementsFeedback;
 
     private Integer nonFunctionalRequirementsScore;
+    private String nonFunctionalRequirementsFeedback;
 
     private Integer apiDesignScore;
+    private String apiDesignFeedback;
 
     private Integer databaseDesignScore;
+    private String databaseDesignFeedback;
 
     private Integer scalingScore;
+    private String scalingFeedback;
 
     private Integer tradeOffsScore;
+    private String tradeOffsFeedback;
 
+    // Common
+    private Integer overallScore;
+    private String strengths;
+    private String weaknesses;
+    private String suggestions;
     private String overallFeedback;
 
     private LocalDateTime evaluatedAt;

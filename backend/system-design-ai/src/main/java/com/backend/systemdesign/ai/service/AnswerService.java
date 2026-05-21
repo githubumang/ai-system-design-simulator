@@ -28,30 +28,24 @@ public class AnswerService {
 
     private UserRepository userRepository;
 
-    public AnswerService(AnswerRepository answerRepository, QuestionRepository questionRepository, UserRepository userRepository) {
+    public AnswerService(AnswerRepository answerRepository, QuestionRepository questionRepository,
+            UserRepository userRepository) {
         this.answerRepository = answerRepository;
         this.questionRepository = questionRepository;
         this.userRepository = userRepository;
     }
 
     public TheoryAnswerResponse submitOrUpdateTheoryAnswer(TheoryAnswerRequest requestDto) {
-        
+
         Question question = questionRepository.findById(
-                                                    requestDto.getQuestionId()
-                                                ).orElseThrow(() ->
-                                                        new ResourceNotFoundException("Question not found")
-                                                );
+                requestDto.getQuestionId()).orElseThrow(() -> new ResourceNotFoundException("Question not found"));
 
         User user = userRepository.findById(
-                                        requestDto.getUserId()
-                                    ).orElseThrow(() -> 
-                                            new ResourceNotFoundException("User not found")
-                                    );
+                requestDto.getUserId()).orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
-        if(question.getType() != QuestionType.THEORY) {
+        if (question.getType() != QuestionType.THEORY) {
             throw new InvalidQuestionTypeException(
-                "This endpoint only supports THEORY questions"
-            );
+                    "This endpoint only supports THEORY questions");
         }
 
         Optional<Answer> existing = answerRepository.findByUserAndQuestion(user, question);
@@ -85,23 +79,16 @@ public class AnswerService {
     }
 
     public DesignAnswerResponse submitOrUpdateDesignAnswer(DesignAnswerRequest requestDto) {
-        
+
         Question question = questionRepository.findById(
-            requestDto.getQuestionId()
-        ).orElseThrow(() ->
-                new ResourceNotFoundException("Question not found")
-        );
+                requestDto.getQuestionId()).orElseThrow(() -> new ResourceNotFoundException("Question not found"));
 
         User user = userRepository.findById(
-            requestDto.getUserId()
-        ).orElseThrow(() -> 
-                new ResourceNotFoundException("User not found")
-        );
+                requestDto.getUserId()).orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
-        if(question.getType() != QuestionType.DESIGN) {
+        if (question.getType() != QuestionType.DESIGN) {
             throw new InvalidQuestionTypeException(
-                "This endpoint only supports DESIGN questions"
-            );
+                    "This endpoint only supports DESIGN questions");
         }
 
         Optional<Answer> existing = answerRepository.findByUserAndQuestion(user, question);
@@ -144,10 +131,6 @@ public class AnswerService {
 
         return responseDto;
     }
-
-    
-
-    
 
     private String generateDummyFeedback(String userAnswer) {
         return "Answer submitted successfully. Generate evaluation separately.";

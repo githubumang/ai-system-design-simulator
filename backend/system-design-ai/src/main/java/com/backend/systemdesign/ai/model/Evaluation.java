@@ -24,22 +24,31 @@ public class Evaluation {
     @JoinColumn(name = "answer_id")
     private Answer answer;
 
-    private Integer overallScore;
-
     private Integer functionalRequirementsScore;
+    private String functionalRequirementsFeedback;
 
     private Integer nonFunctionalRequirementsScore;
+    private String nonFunctionalRequirementsFeedback;
 
     private Integer apiDesignScore;
+    private String apiDesignFeedback;
 
     private Integer databaseDesignScore;
+    private String databaseDesignFeedback;
 
     private Integer scalingScore;
+    private String scalingFeedback;
 
     private Integer tradeOffsScore;
+    private String tradeOffsFeedback;
 
     @Column(columnDefinition = "TEXT")
     private String overallFeedback;
+
+    private Integer overallScore;
+    private String strengths;
+    private String weaknesses;
+    private String suggestions;
 
     private LocalDateTime evaluatedAt;
 }
