@@ -41,7 +41,12 @@ This project simulates a **real system design interview platform** where users c
 * Structured answer submission for system design questions
 * Domain-specific DTOs and APIs
 * Separate evaluation workflow for submitted answers
-* Structured evaluation scoring architecture
+* Structured AI-powered evaluation architecture
+* OpenAI integration using Spring AI
+* Prompt-based evaluation system for THEORY and DESIGN questions
+* Structured JSON-based AI evaluation parsing
+* Section-wise evaluation scoring and feedback
+* Evaluation caching using lifecycle-aware freshness checks
 * API versioning using `/api/v1`
 
 ---
@@ -74,7 +79,7 @@ docs/
 ## 🧱 Architecture
 
 ```text
-Client → Controller → Service → Evaluation Engine → Repository → Database
+Client → Controller → Service → Evaluation Engine → Prompt Builder → Repository → Database
 ```
 
 ### Layer Responsibilities
@@ -268,8 +273,9 @@ Example error response:
 ## ⚠️ Current Limitations
 
 - Authentication is not implemented yet
-- AI/OpenAI integration is not implemented yet
-- Current evaluation scores are generated using dummy logic
+- AI evaluation quality depends on prompt engineering
+- AI responses may vary slightly between evaluations
+- Evaluation workflow is currently synchronous
 - H2 is used for local development only
 
 ---
@@ -305,6 +311,8 @@ Supported sections:
 * H2 Database
 * Maven
 * Swagger/OpenAPI
+* Spring AI
+* OpenAI API
 
 ---
 
@@ -333,9 +341,10 @@ http://localhost:8080/h2-console
 ## 📈 Future Roadmap
 
 * 🔜 User management & authentication
-* 🔜 OpenAI-powered evaluation engine
-* 🔜 AI-generated section-wise feedback
-* 🔜 AI-powered evaluation for structured design sections
+* 🔜 Asynchronous AI evaluation workflow
+* 🔜 AI evaluation retry & resilience handling
+* 🔜 Evaluation status tracking (PROCESSING, COMPLETED, FAILED)
+* 🔜 Prompt versioning and evaluation invalidation strategy
 * 🔜 Structured system design feedback
 * 🔜 Progress tracking dashboard
 * 🔜 Microservices migration
@@ -350,6 +359,9 @@ http://localhost:8080/h2-console
 * DTO-based API design
 * Validation & error handling
 * Scalable system design approach
+* AI-powered structured evaluation workflow
+* Prompt-engineering-based evaluation architecture
+* Lifecycle-aware evaluation caching
 
 ---
 
