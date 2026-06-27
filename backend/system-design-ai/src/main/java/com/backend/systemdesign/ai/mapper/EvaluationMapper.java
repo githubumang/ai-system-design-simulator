@@ -15,6 +15,7 @@ public class EvaluationMapper {
                 responseDto.setAnswerId(evaluation.getAnswer().getId());
                 responseDto.setQuestionType(evaluation.getAnswer().getQuestion().getType());
                 responseDto.setEvaluatedAt(evaluation.getEvaluatedAt());
+                responseDto.setStatus(evaluation.getStatus());
 
                 // Common fields
                 responseDto.setOverallScore(evaluation.getOverallScore());

@@ -2,6 +2,8 @@ package com.backend.systemdesign.ai.service.ai.implementation;
 
 import java.time.LocalDateTime;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
@@ -10,6 +12,7 @@ import com.backend.systemdesign.ai.dto.ai.AIEvaluationResult;
 import com.backend.systemdesign.ai.mapper.AIEvaluationMapper;
 import com.backend.systemdesign.ai.model.Answer;
 import com.backend.systemdesign.ai.model.Evaluation;
+import com.backend.systemdesign.ai.model.EvaluationStatus;
 import com.backend.systemdesign.ai.model.QuestionType;
 import com.backend.systemdesign.ai.prompt.DesignPromptBuilder;
 import com.backend.systemdesign.ai.prompt.TheoryPromptBuilder;
@@ -19,6 +22,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @Primary
 @Service
 public class OpenAIEvaluationEngine implements EvaluationEngine {
+
+    private static final Logger logger = LoggerFactory.getLogger(OpenAIEvaluationEngine.class);
 
     private final ChatClient chatClient;
 
@@ -62,10 +67,18 @@ public class OpenAIEvaluationEngine implements EvaluationEngine {
 
             aiEvaluationMapper.mapToEvaluation(result, evaluation, answer);
 
+            evaluation.setStatus(EvaluationStatus.COMPLETED);
+
         } catch (Exception e) {
+
+            logger.error(
+                    "Failed to evaluate answer with id {}",
+                    answer.getId(),
+                    e);
             // Fallback if parsing fails — don't crash, store raw text
             evaluation.setOverallScore(0);
-            evaluation.setOverallFeedback("AI evaluation failed to parse. Raw response: " + rawResponse);
+            evaluation.setStatus(EvaluationStatus.FAILED);
+            evaluation.setOverallFeedback("AI evaluation failed. Please retry.");
         }
 
         evaluation.setEvaluatedAt(LocalDateTime.now());
