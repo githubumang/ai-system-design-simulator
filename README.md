@@ -47,6 +47,9 @@ This project simulates a **real system design interview platform** where users c
 * Structured JSON-based AI evaluation parsing
 * Section-wise evaluation scoring and feedback
 * Evaluation caching using lifecycle-aware freshness checks
+* Evaluation retry workflow with cache bypass
+* Evaluation lifecycle tracking (`PROCESSING`, `COMPLETED`, `FAILED`)
+* Seed data loader for local development and testing
 * API versioning using `/api/v1`
 
 ---
@@ -189,9 +192,10 @@ One User can submit only one answer per question
 
 ### 🔹 Evaluations
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/api/v1/evaluations/{answerId}` | Generate evaluation for submitted answer |
+| Method | Endpoint                               | Description                                  |
+| ------ | -------------------------------------- | -------------------------------------------- |
+| POST   | `/api/v1/evaluations/{answerId}`       | Generate evaluation for submitted answer     |
+| POST   | `/api/v1/evaluations/{answerId}/retry` | Force re-evaluate an answer and bypass cache |
 
 #### Evaluation Response
 
@@ -199,14 +203,15 @@ One User can submit only one answer per question
 {
   "answerId": 1,
   "questionType": "DESIGN",
-  "overallScore": 4,
-  "functionalRequirementsScore": 3,
-  "nonFunctionalRequirementsScore": 2,
-  "apiDesignScore": 4,
-  "databaseDesignScore": 5,
+  "status": "COMPLETED",
+  "overallScore": 8,
+  "functionalRequirementsScore": 8,
+  "nonFunctionalRequirementsScore": 7,
+  "apiDesignScore": 8,
+  "databaseDesignScore": 7,
   "scalingScore": 9,
-  "tradeOffsScore": 10,
-  "overallFeedback": "Overall feedback is good",
+  "tradeOffsScore": 8,
+  "overallFeedback": "Good overall system design with clear trade-off analysis.",
   "evaluatedAt": "2026-05-18T20:30:00"
 }
 ```
@@ -260,13 +265,16 @@ Example error response:
 
 ## 🧠 Business Rules
 
-- One user can submit only one answer per question
-- Submitting again updates the existing answer
-- Invalid users/questions return proper HTTP 404 responses
-- Theory and Design questions use separate answer workflows
-- Design answers support structured system design sections
-- Evaluations are generated separately from answer submission
-- Design answers support section-wise evaluation scoring
+* One user can submit only one answer per question
+* Submitting an answer again updates the existing answer
+* Invalid users/questions return proper HTTP 404 responses
+* Theory and Design questions use separate answer workflows
+* Design answers support structured system design sections
+* Evaluations are generated independently from answer submission
+* Evaluations are cached and reused if the submitted answer has not changed
+* Updating an answer automatically invalidates stale evaluations
+* Clients can explicitly retry evaluations using the retry endpoint
+* Evaluation lifecycle is tracked using `PROCESSING`, `COMPLETED`, and `FAILED` states
 
 ---
 
@@ -342,13 +350,13 @@ http://localhost:8080/h2-console
 
 * 🔜 User management & authentication
 * 🔜 Asynchronous AI evaluation workflow
-* 🔜 AI evaluation retry & resilience handling
-* 🔜 Evaluation status tracking (PROCESSING, COMPLETED, FAILED)
+* 🔜 AI evaluation retry resilience policies
 * 🔜 Prompt versioning and evaluation invalidation strategy
-* 🔜 Structured system design feedback
 * 🔜 Progress tracking dashboard
+* 🔜 Frontend application (React)
 * 🔜 Microservices migration
-* 🔜 Caching & performance optimization
+* 🔜 Redis caching & performance optimization
+* 🔜 Production deployment
 
 ---
 
@@ -362,6 +370,9 @@ http://localhost:8080/h2-console
 * AI-powered structured evaluation workflow
 * Prompt-engineering-based evaluation architecture
 * Lifecycle-aware evaluation caching
+* Lifecycle-aware AI evaluation caching
+* Retryable AI evaluation workflow
+* Evaluation state management for frontend readiness
 
 ---
 
