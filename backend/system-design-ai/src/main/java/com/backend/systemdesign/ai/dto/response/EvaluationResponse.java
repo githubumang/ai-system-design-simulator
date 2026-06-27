@@ -2,6 +2,7 @@ package com.backend.systemdesign.ai.dto.response;
 
 import java.time.LocalDateTime;
 
+import com.backend.systemdesign.ai.model.EvaluationStatus;
 import com.backend.systemdesign.ai.model.QuestionType;
 
 import lombok.Getter;
@@ -11,6 +12,8 @@ import lombok.Setter;
 @Setter
 public class EvaluationResponse {
     private Long answerId;
+
+    private EvaluationStatus status;
 
     // Section-wise (DESIGN only)
     private Integer functionalRequirementsScore;
