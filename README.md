@@ -23,7 +23,7 @@ This project simulates a **real system design interview platform** where users c
 * Architecture Decision Records (ADR)
 * Documentation-first approach
 
-### ✅ Phase 2: Backend Development (Current)
+### ✅ Phase 2: Backend Development
 
 * Question management APIs
 * Answer submission APIs
@@ -33,24 +33,20 @@ This project simulates a **real system design interview platform** where users c
 * Structured API error responses
 * Relational mapping between Users, Questions, and Answers
 * Swagger/OpenAPI integration for API documentation
-* One answer per user per question
-* Update existing answer flow
-* H2 database integration
-* Clean layered architecture
-* Separate workflows for THEORY and DESIGN questions
-* Structured answer submission for system design questions
-* Domain-specific DTOs and APIs
-* Separate evaluation workflow for submitted answers
-* Structured AI-powered evaluation architecture
 * OpenAI integration using Spring AI
-* Prompt-based evaluation system for THEORY and DESIGN questions
-* Structured JSON-based AI evaluation parsing
-* Section-wise evaluation scoring and feedback
-* Evaluation caching using lifecycle-aware freshness checks
-* Evaluation retry workflow with cache bypass
-* Evaluation lifecycle tracking (`PROCESSING`, `COMPLETED`, `FAILED`)
-* Seed data loader for local development and testing
+* Structured AI-powered evaluation workflow
+* Evaluation caching and lifecycle management
+* Seed data loader for local development
 * API versioning using `/api/v1`
+
+### ✅ Phase 3: Frontend Development (In Progress)
+
+* React + TypeScript frontend initialized using Vite
+* Tailwind CSS integration
+* Client-side routing using React Router
+* Reusable frontend architecture and folder structure
+* Shared layout components (Navbar, Footer, MainLayout)
+* Foundation for API integration using Axios and React Query
 
 ---
 
@@ -312,6 +308,8 @@ Supported sections:
 
 ## 🛠️ Tech Stack
 
+### Backend
+
 * Java 17
 * Spring Boot 3.x
 * Spring Data JPA
@@ -322,15 +320,152 @@ Supported sections:
 * Spring AI
 * OpenAI API
 
+### Frontend
+
+* React 19
+* TypeScript
+* Vite
+* Tailwind CSS
+* React Router DOM
+* Axios
+* TanStack React Query
+* ESLint
+* Prettier
+
+---
+
+## 🖥️ Frontend Architecture
+
+```text
+frontend/
+├── src/
+│   ├── components/
+│   ├── pages/
+│   ├── layouts/
+│   ├── routes/
+│   ├── services/
+│   ├── hooks/
+│   ├── context/
+│   ├── types/
+│   ├── utils/
+│   ├── assets/
+│   ├── App.tsx
+│   └── main.tsx
+```
+
+### Frontend Responsibilities
+
+* Present system design questions
+* Allow users to submit answers
+* Display AI-generated feedback
+* Track user submissions and evaluation history
+* Communicate with backend APIs
+
+```
+```
+
 ---
 
 ## ⚙️ Running the Project
 
-```bash 
+### Prerequisites
+
+Ensure the following are installed on your machine:
+
+* Java 17+
+* Maven 3.9+
+* Node.js 20+
+* npm 10+
+* Git
+
+---
+
+### 1. Clone the Repository
+
+```bash
 git clone https://github.com/githubumang/ai-system-design-simulator.git
+cd ai-system-design-simulator
+```
+
+---
+
+### 2. Run the Backend Application
+
+Navigate to the backend directory:
+
+```bash
 cd backend/system-design-ai
+```
+
+Install dependencies and start the Spring Boot application:
+
+```bash
 ./mvnw clean install
 ./mvnw spring-boot:run
+```
+
+The backend application will be available at:
+
+```text
+http://localhost:8080
+```
+
+Swagger UI:
+
+```text
+http://localhost:8080/swagger-ui/index.html
+```
+
+H2 Console:
+
+```text
+http://localhost:8080/h2-console
+```
+
+---
+
+### 3. Run the Frontend Application
+
+Open a new terminal and navigate to the frontend directory:
+
+```bash
+cd frontend
+```
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Start the Vite development server:
+
+```bash
+npm run dev
+```
+
+The frontend application will be available at:
+
+```text
+http://localhost:5173
+```
+
+---
+
+### 4. Run Backend Tests
+
+```bash
+cd backend/system-design-ai
+./mvnw test
+```
+
+---
+
+### 5. Run Frontend Checks
+
+```bash
+cd frontend
+npm run lint
 ```
 
 ---
