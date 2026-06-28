@@ -1,6 +1,6 @@
 # 🧠 AI System Design Simulator
 
-An AI-powered backend system that helps users practice **system design interview questions** and receive structured feedback.
+An AI-powered full-stack platform that helps users practice system design interview questions and receive structured AI feedback.
 
 ---
 
@@ -488,7 +488,6 @@ http://localhost:8080/h2-console
 * 🔜 AI evaluation retry resilience policies
 * 🔜 Prompt versioning and evaluation invalidation strategy
 * 🔜 Progress tracking dashboard
-* 🔜 Frontend application (React)
 * 🔜 Microservices migration
 * 🔜 Redis caching & performance optimization
 * 🔜 Production deployment
@@ -504,10 +503,12 @@ http://localhost:8080/h2-console
 * Scalable system design approach
 * AI-powered structured evaluation workflow
 * Prompt-engineering-based evaluation architecture
-* Lifecycle-aware evaluation caching
 * Lifecycle-aware AI evaluation caching
 * Retryable AI evaluation workflow
 * Evaluation state management for frontend readiness
+* Modern React + TypeScript frontend
+* Responsive SaaS-style user interface
+* Client-side routing with React Router
 
 ---
 
